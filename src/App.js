@@ -1,25 +1,76 @@
-import logo from './logo.svg';
 import './App.css';
+import { Component } from 'react';
+import MapContainer from './components/GoogleMap';
+import youtube from './apis/youtube';
+import EachVideo from './components/EachVideo';
+import { connect } from 'react-redux';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+
+
+class App extends Component {
+  constructor() {
+    super();
+    this.state = {
+      videos: [],
+      // added to Redux
+      // searchResult: "attractions Eiffel Tower, Paris, France"
+    }
+  }
+
+  componentDidMount() {
+    // this.searchVideos();
+    console.log(this.props.searchResult)
+  }
+
+
+  searchVideos = async () => {
+    const response = await youtube.get('/search', {
+      params: {
+        q: this.props.searchResult
+      }
+    })
+    this.setState({
+      videos: response.data.items
+    });
+  };
+
+
+  render() {
+    return (
+      <div>
+        <MapContainer />
+        <div>
+          teeeeeeeee {this.props.searchResult}
+          <ul>
+            {
+              this.state.videos.map((eachVideo) => {
+                return (
+                  <li key={eachVideo.id.videoId}>
+                    <EachVideo
+                      videoTitle={eachVideo.snippet.title}
+                      videoDescription={eachVideo.snippet.description}
+                      videoId={eachVideo.id.videoId}
+                    />
+                  </li>
+                );
+              })
+            }
+          </ul>
+        </div>
+      </div>
+    )
+  }
 }
 
-export default App;
+const mapStateToProps = (state) => {
+  return {
+    searchResult: state.searchResult
+  }
+}
+
+export default connect(mapStateToProps)(App);
+
+
+
+
+

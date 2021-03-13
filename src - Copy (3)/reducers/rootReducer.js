@@ -1,18 +1,20 @@
 const initState = {
-    videoList: []
+    videoList: [{}]
 }
 
 const rootReducer = (state = initState, action) => {
-    // Add video list to the store
-    if (action.type === 'UPDATE_VIDEOS') {
+    // console.log(action)
+    if(action.type === 'UPDATE_LOCATION'){
         return {
             ...state,
             videoList: action.videoList
         }
+     
     }
+    // console.log(state)
     return state;
 }
 
-
+// console.log(this.state.videoList)
 
 export default rootReducer;

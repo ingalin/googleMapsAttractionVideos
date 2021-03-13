@@ -1,102 +1,89 @@
 import React, { Component } from 'react';
-import { Map, Marker, GoogleApiWrapper } from 'google-maps-react';
+import { Map, InfoWindow, Marker, GoogleApiWrapper } from 'google-maps-react';
 import PlacesAutocomplete, { geocodeByAddress, getLatLng } from 'react-places-autocomplete';
 import { connect } from 'react-redux';
+
+
 import youtube from '../apis/youtube';
-import { addVideos } from '../actions/postActions';
+
 
 export class MapContainer extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            address: "",
+            // address: '',
             mapCenter: {
-                lat: 0,
-                lng: 0
+                lat: 49.28,
+                lng: -123.12
             },
             containerStyle: {
                 position: 'relative',
                 width: '500px',
-                height: '300px'
-            },
-            errorMessage: false,
-            showww: false
+                height: '500px'
+            }
         }
     }
 
-    // Load first location
-    componentDidMount() {
-        this.handleSearch("Toronto, ON, Canada")
-    }
 
-    // Handle place change
+
     handleChange = address => {
-        this.setState({
-            address,
-            errorMessage: false
-        });
+        this.setState({ address });
+
+        
     };
 
-    // Handle place submit
-    handleSearch = address => {
+    handleSelect = address => {
         geocodeByAddress(address)
             .then(results => getLatLng(results[0]))
             .then(latLng => {
-                // Update address, map center lat and lng
                 this.setState({
                     address,
                     mapCenter: latLng
                 })
-                // Search for videos based on the selection
+
+                // this.props.updateLocation(address)
                 this.searchVideos(address);
             })
-            // Error if entered data not valid
-            .catch(error =>
-                // console.error('Error', error)
-                this.setState({
-                    errorMessage: true
-                })
-            );
+            .catch(error => console.error('Error', error));
     };
 
-    // Run axios call to search for videos
+
     searchVideos = async () => {
         const response = await youtube.get('/search', {
             params: {
-                q: `attractions ${this.state.address}`
+                q: this.state.address
             }
         })
-        this.props.updateVideoList(response.data.items);
-    };
-
-
-    showww = () =>{
         this.setState({
-            showww: true
-        })
-    }
+            videos: response.data.items
+        });
+
+        const videos = response.data.items;
+
+        // console.log("changgeee")
+        this.props.updateLocation(videos);
+    };
 
     render() {
         return (
-            <section>
-                {/* Autocomplete menu */}
+            <div>
+                {/* teeeeeeeee {console.log(this.props.searchResult)} */}
                 <PlacesAutocomplete
                     value={this.state.address}
                     onChange={this.handleChange}
-                    onSelect={this.handleSearch}
+                    onSelect={this.handleSelect}
                 >
                     {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
                         <div>
                             <input
                                 {...getInputProps({
-                                    // placeholder: 'Search Places ...',
+                                    placeholder: 'Search Places ...',
                                     className: 'location-search-input',
                                 })}
                             />
                             <div className="autocomplete-dropdown-container">
                                 {loading && <div>Loading...</div>}
                                 {suggestions.map((suggestion, count) => {
-                                    // add count to avoid same key error
                                     count++;
                                     const className = suggestion.active
                                         ? 'suggestion-item--active'
@@ -111,6 +98,7 @@ export class MapContainer extends Component {
                                                 className,
                                                 style,
                                             })
+                                            
                                             }
                                         >
                                             <span>{suggestion.description}</span>
@@ -121,10 +109,6 @@ export class MapContainer extends Component {
                         </div>
                     )}
                 </PlacesAutocomplete>
-                {/* Error message if no new data show up */}
-                {this.state.errorMessage ? <h2>No search results, please try again!</h2> : null}
-                {this.state.showww ? <h2>{this.state.address}</h2> : null}
-
                 <Map
                     containerStyle={this.state.containerStyle}
                     google={this.props.google}
@@ -137,30 +121,44 @@ export class MapContainer extends Component {
                         lng: this.state.mapCenter.lng
                     }}
                 >
-                    <Marker onClick={this.showww}
+                    <Marker
                         position={{
                             lat: this.state.mapCenter.lat,
                             lng: this.state.mapCenter.lng
                         }}
                     />
                 </Map>
-            </section>
+            </div>
         )
     }
 }
 
-// Connect to Redux to add videos to the store
+// const mapDispatchToProps = (dispatch) => {
+//     return {
+//         updateLocation: (address) => {
+//             dispatch({
+//                 type: 'UPDATE_LOCATION',
+//                 // id: id,
+//                 searchResult: address
+//             })
+//         }
+//     }
+// }
+
+
 const mapDispatchToProps = (dispatch) => {
     return {
-        updateVideoList: (videos) => {
-            dispatch(
-                addVideos(videos)
-            )
+        updateLocation: (videos) => {
+            dispatch({
+                type: 'UPDATE_LOCATION',
+                // id: id,
+                searchResult: videos
+            })
         }
     }
 }
 
 
-export default GoogleApiWrapper({
-    apiKey: ('AIzaSyDyneUlJD4fQc3lz4lpSpuERF8L0SkRzI4')
+export default  GoogleApiWrapper({
+    apiKey: ('AIzaSyDvbQkrSGqMuXPnUQVEu75kjj8NlOPj2J4')
 })(connect(null, mapDispatchToProps)(MapContainer));

@@ -3,12 +3,13 @@ const initState = {
 }
 
 const rootReducer = (state = initState, action) => {
-    // Add video list to the store
-    if (action.type === 'UPDATE_VIDEOS') {
+
+    if(action.type === 'UPDATE_VIDEOS'){
         return {
             ...state,
             videoList: action.videoList
         }
+     
     }
     return state;
 }

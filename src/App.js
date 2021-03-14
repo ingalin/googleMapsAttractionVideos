@@ -5,14 +5,12 @@ import EachVideo from './components/EachVideo';
 import { connect } from 'react-redux';
 
 
-
 class App extends Component {
-
   render() {
     return (
       <main className="wrapper">
         {/* Google menu and map */}
-        <MapContainer/>
+        <MapContainer />
         {/* YouTube Videos */}
         <section className="videos">
           <ul>
@@ -36,6 +34,7 @@ class App extends Component {
   }
 }
 
+// Get data from Redux
 const mapStateToProps = (state) => {
   return {
     videoList: state.videoList

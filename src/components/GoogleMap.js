@@ -17,8 +17,9 @@ export class MapContainer extends Component {
             containerStyle: {
                 position: 'relative',
                 width: '78%',
-                height: '350px',
-                marginTop: '30px',
+                minHeight: '350px',
+                height: '55vh',
+                marginTop: '20px',
                 borderRadius: "16px",
                 border: "2px #AAA1C8 solid",
                 overflow: "hidden",
@@ -78,6 +79,7 @@ export class MapContainer extends Component {
                 errorMessageVideos: true
             })
         );
+        // If videos are exported, add to Redux
         if (!this.state.errorMessageVideos) {
             this.props.updateVideoList(response.data.items);
         }
@@ -87,7 +89,7 @@ export class MapContainer extends Component {
     render() {
         return (
             <section className="maps">
-                <h1>Choose location and explore nearby attractions!</h1>
+                <h1>Choose location & explore nearby attractions!</h1>
                 {/* Autocomplete menu */}
                 <PlacesAutocomplete
                     value={this.state.address}
@@ -95,7 +97,7 @@ export class MapContainer extends Component {
                     onSelect={this.handleSearch}
                 >
                     {({ getInputProps, suggestions, getSuggestionItemProps }) => (
-                        <div>
+                        <div className="inputField">
                             <input
                                 {...getInputProps({
                                     className: 'location-search-input',

@@ -34,7 +34,6 @@ body {
 }
 
 main {
-  /* padding: 100px 0; */
   display: flex;
   justify-content: space-between;
   height: 100vh;
@@ -59,7 +58,7 @@ h2 {
   padding-top: 15px;
 }
 
-
+/* Search menu */
 .location-search-input,.location-search-input:focus,.location-search-input:active {
   font-size: 2rem;
   font-family: 'Mukta', sans-serif;
@@ -105,7 +104,7 @@ h2 {
 /* Videos section */
 iframe {
   width: 100%;
-  height: 240px;
+  min-height: 240px;
 }
 
 .videos {
@@ -117,9 +116,9 @@ iframe {
   right: 0;
 }
 
-/* Maps section */
-
+/* Maps, menu section */
 .maps {
+  width: 120%;
   position: relative;
 }
 
@@ -133,7 +132,80 @@ iframe {
   color: red;
 }
 
-/* iframe {
-  width: 300px;
-  height: 180px;
-} */
+/* Media queries */
+@media (max-width: 1200px) {
+  .videos {
+    width: 60%;
+    padding: 30px 20px 40px;
+  }
+}
+
+@media (max-width: 1000px) {
+  h1 {
+    font-size: 2.4rem;
+  }
+
+  .videos {
+    width: 80%;
+  }
+
+  iframe {
+    min-height: 200px;
+  }
+}
+
+@media (max-width: 830px) {
+
+  .wrapper {
+    width: 100%;
+  }
+
+  main {
+    display: block;
+  }
+
+  .maps {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .location-search-input,.location-search-input:focus,.location-search-input:active {
+    width: 100%;
+  }
+
+  .inputField, .errorMessages {
+    width: 78%;
+  }
+
+  .videos {
+    margin-top: 40px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    padding: 40px 5% 0;
+  }
+
+  iframe {
+    width: 100%;
+    margin: 0;
+    height: 280px;
+  }
+}
+
+@media (max-width: 830px) {
+  iframe {
+    height: 280px;
+  }
+}
+
+@media (max-width: 460px) {
+  h1 {
+    font-size: 2rem;
+  }
+  
+  iframe {
+    height: 150px;
+  }
+}

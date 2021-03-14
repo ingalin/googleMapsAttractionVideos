@@ -16,8 +16,8 @@ export class MapContainer extends Component {
             },
             containerStyle: {
                 position: 'relative',
-                width: '600px',
-                height: '500px',
+                width: '500px',
+                height: '300px',
             },
             errorMessage: false,
             errorMessageVideos: false
@@ -67,20 +67,18 @@ export class MapContainer extends Component {
             params: {
                 q: `attractions ${this.state.address}`
             }
-        }
-        ).catch(() =>
+        }).catch(() =>
             // Error message if videos can't be displayed
             this.setState({
                 errorMessageVideos: true
             })
         );
-        this.props.updateVideoList(response.data.items);
     };
 
 
     render() {
         return (
-            <section className="maps">
+            <section>
                 {/* Autocomplete menu */}
                 <PlacesAutocomplete
                     value={this.state.address}
@@ -103,7 +101,7 @@ export class MapContainer extends Component {
                                         : 'suggestion-item';
                                     // inline style
                                     const style = suggestion.active
-                                        ? { backgroundColor: '#192A51', color: 'white', cursor: 'pointer' }
+                                        ? { backgroundColor: '#192A51', color: 'white', cursor: 'pointer'}
                                         : { backgroundColor: '#fff9eb', cursor: 'pointer' };
                                     return (
                                         <div key={count}

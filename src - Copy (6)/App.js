@@ -12,9 +12,9 @@ class App extends Component {
     return (
       <main className="wrapper">
         {/* Google menu and map */}
-        <MapContainer/>
+        <MapContainer />
         {/* YouTube Videos */}
-        <section className="videos">
+        <section>
           <ul>
             {
               this.props.videoList.map((eachVideo) => {

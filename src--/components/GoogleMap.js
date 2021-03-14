@@ -16,8 +16,8 @@ export class MapContainer extends Component {
             },
             containerStyle: {
                 position: 'relative',
-                width: '600px',
-                height: '500px',
+                width: '500px',
+                height: '300px',
             },
             errorMessage: false,
             errorMessageVideos: false
@@ -75,12 +75,13 @@ export class MapContainer extends Component {
             })
         );
         this.props.updateVideoList(response.data.items);
+
     };
 
 
     render() {
         return (
-            <section className="maps">
+            <section>
                 {/* Autocomplete menu */}
                 <PlacesAutocomplete
                     value={this.state.address}

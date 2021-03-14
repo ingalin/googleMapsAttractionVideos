@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Map, InfoWindow, Marker, GoogleApiWrapper } from 'google-maps-react';
+import { Map, Marker, GoogleApiWrapper } from 'google-maps-react';
 import PlacesAutocomplete, { geocodeByAddress, getLatLng } from 'react-places-autocomplete';
 import { connect } from 'react-redux';
 import youtube from '../apis/youtube';
@@ -16,11 +16,11 @@ export class MapContainer extends Component {
             },
             containerStyle: {
                 position: 'relative',
-                width: '600px',
-                height: '500px',
+                width: '500px',
+                height: '300px'
             },
             errorMessage: false,
-            errorMessageVideos: false
+            showww: false
         }
     }
 
@@ -33,7 +33,7 @@ export class MapContainer extends Component {
     handleChange = address => {
         this.setState({
             address,
-            errorMessage: false,
+            errorMessage: false
         });
     };
 
@@ -45,19 +45,17 @@ export class MapContainer extends Component {
                 // Update address, map center lat and lng
                 this.setState({
                     address,
-                    mapCenter: latLng,
-                    errorMessageVideos: false
+                    mapCenter: latLng
                 })
                 // Search for videos based on the selection
                 this.searchVideos(address);
-                console.log("ggggg")
             })
             // Error if entered data not valid
             .catch(error =>
-                console.error('Error', error)
-                // this.setState({
-                //     errorMessage: true,
-                // })
+                // console.error('Error', error)
+                this.setState({
+                    errorMessage: true
+                })
             );
     };
 
@@ -67,44 +65,46 @@ export class MapContainer extends Component {
             params: {
                 q: `attractions ${this.state.address}`
             }
-        }
-        ).catch(() =>
-            // Error message if videos can't be displayed
-            this.setState({
-                errorMessageVideos: true
-            })
-        );
+        })
         this.props.updateVideoList(response.data.items);
     };
 
 
+    showww = () =>{
+        this.setState({
+            showww: true
+        })
+    }
+
     render() {
         return (
-            <section className="maps">
+            <section>
                 {/* Autocomplete menu */}
                 <PlacesAutocomplete
                     value={this.state.address}
                     onChange={this.handleChange}
                     onSelect={this.handleSearch}
                 >
-                    {({ getInputProps, suggestions, getSuggestionItemProps }) => (
+                    {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
                         <div>
                             <input
                                 {...getInputProps({
+                                    // placeholder: 'Search Places ...',
                                     className: 'location-search-input',
                                 })}
                             />
                             <div className="autocomplete-dropdown-container">
+                                {loading && <div>Loading...</div>}
                                 {suggestions.map((suggestion, count) => {
                                     // add count to avoid same key error
                                     count++;
                                     const className = suggestion.active
                                         ? 'suggestion-item--active'
                                         : 'suggestion-item';
-                                    // inline style
+                                    // inline style for demonstration purpose
                                     const style = suggestion.active
-                                        ? { backgroundColor: '#192A51', color: 'white', cursor: 'pointer' }
-                                        : { backgroundColor: '#fff9eb', cursor: 'pointer' };
+                                        ? { backgroundColor: '#fafafa', cursor: 'pointer' }
+                                        : { backgroundColor: '#f555ff', cursor: 'pointer' };
                                     return (
                                         <div key={count}
                                             {...getSuggestionItemProps(suggestion, {
@@ -123,7 +123,7 @@ export class MapContainer extends Component {
                 </PlacesAutocomplete>
                 {/* Error message if no new data show up */}
                 {this.state.errorMessage ? <h2>No search results, please try again!</h2> : null}
-                {this.state.errorMessageVideos ? <h2>Videos can't be displayed, please try again!</h2> : null}
+                {this.state.showww ? <h2>{this.state.address}</h2> : null}
 
                 <Map
                     containerStyle={this.state.containerStyle}
@@ -137,7 +137,7 @@ export class MapContainer extends Component {
                         lng: this.state.mapCenter.lng
                     }}
                 >
-                    <Marker
+                    <Marker onClick={this.showww}
                         position={{
                             lat: this.state.mapCenter.lat,
                             lng: this.state.mapCenter.lng

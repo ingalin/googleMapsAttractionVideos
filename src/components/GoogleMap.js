@@ -16,8 +16,12 @@ export class MapContainer extends Component {
             },
             containerStyle: {
                 position: 'relative',
-                width: '600px',
-                height: '500px',
+                width: '78%',
+                height: '350px',
+                marginTop: '30px',
+                borderRadius: "16px",
+                border: "2px #AAA1C8 solid",
+                overflow: "hidden",
             },
             errorMessage: false,
             errorMessageVideos: false
@@ -34,6 +38,7 @@ export class MapContainer extends Component {
         this.setState({
             address,
             errorMessage: false,
+            errorMessageVideos: false
         });
     };
 
@@ -50,14 +55,13 @@ export class MapContainer extends Component {
                 })
                 // Search for videos based on the selection
                 this.searchVideos(address);
-                console.log("ggggg")
             })
             // Error if entered data not valid
             .catch(error =>
-                console.error('Error', error)
-                // this.setState({
-                //     errorMessage: true,
-                // })
+                // console.error('Error', error)
+                this.setState({
+                    errorMessage: true,
+                })
             );
     };
 
@@ -74,13 +78,16 @@ export class MapContainer extends Component {
                 errorMessageVideos: true
             })
         );
-        this.props.updateVideoList(response.data.items);
+        if (!this.state.errorMessageVideos) {
+            this.props.updateVideoList(response.data.items);
+        }
     };
 
 
     render() {
         return (
             <section className="maps">
+                <h1>Choose location and explore nearby attractions!</h1>
                 {/* Autocomplete menu */}
                 <PlacesAutocomplete
                     value={this.state.address}
@@ -122,9 +129,10 @@ export class MapContainer extends Component {
                     )}
                 </PlacesAutocomplete>
                 {/* Error message if no new data show up */}
-                {this.state.errorMessage ? <h2>No search results, please try again!</h2> : null}
-                {this.state.errorMessageVideos ? <h2>Videos can't be displayed, please try again!</h2> : null}
-
+                <div className="errorMessages">
+                    {this.state.errorMessage ? <p>No search results, please try again!</p> : null}
+                    {this.state.errorMessageVideos ? <p>Videos can't be displayed, please try again!</p> : null}
+                </div>
                 <Map
                     containerStyle={this.state.containerStyle}
                     google={this.props.google}

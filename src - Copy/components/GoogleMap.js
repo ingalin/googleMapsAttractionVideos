@@ -25,10 +25,7 @@ export class MapContainer extends Component {
                 overflow: "hidden",
             },
             errorMessage: false,
-            errorMessageVideos: false,
-            showingInfoWindow: false,
-            activeMarker: {},
-            selectedPlace: {},
+            errorMessageVideos: false
         }
     }
 
@@ -87,15 +84,6 @@ export class MapContainer extends Component {
             this.props.updateVideoList(response.data.items);
         }
     };
-
-
-    // Show city on marker click
-    onMarkerClick = (props, marker, e) =>
-        this.setState({
-            selectedPlace: props,
-            activeMarker: marker,
-            showingInfoWindow: true
-        });
 
 
     render() {
@@ -159,22 +147,12 @@ export class MapContainer extends Component {
                         lng: this.state.mapCenter.lng
                     }}
                 >
-                    {/* Show marker and info about the location */}
                     <Marker
-                        onClick={this.onMarkerClick}
-                        name={this.state.address}
                         position={{
                             lat: this.state.mapCenter.lat,
                             lng: this.state.mapCenter.lng
                         }}
                     />
-                    <InfoWindow
-                        marker={this.state.activeMarker}
-                        visible={this.state.showingInfoWindow}>
-                        <div>
-                            <h3>{this.state.selectedPlace.name}</h3>
-                        </div>
-                    </InfoWindow>
                 </Map>
             </section>
         )

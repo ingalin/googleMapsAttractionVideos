@@ -4,7 +4,6 @@ import MapContainer from './components/GoogleMap';
 import EachVideo from './components/EachVideo';
 import { connect } from 'react-redux';
 
-
 class App extends Component {
   render() {
     return (

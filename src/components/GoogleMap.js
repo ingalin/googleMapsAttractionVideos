@@ -194,5 +194,5 @@ const mapDispatchToProps = (dispatch) => {
 
 
 export default GoogleApiWrapper({
-    apiKey: ('AIzaSyDyneUlJD4fQc3lz4lpSpuERF8L0SkRzI4')
+    apiKey: ('AIzaSyBbb_SnBrhOsjn--3XIcamLw9ybv-Rhr7c')
 })(connect(null, mapDispatchToProps)(MapContainer));

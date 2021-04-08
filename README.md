@@ -1,3 +1,9 @@
+# Search Places in Google and find nearby attraction videos!
+
+Stack used - JavaScript, React, Redux, HTML, CSS, Google API, YouTube API
+
+
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).

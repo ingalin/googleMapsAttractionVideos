@@ -3,7 +3,7 @@
 Stack used - JavaScript, React, Redux, HTML, CSS, Google API, YouTube API
 
 
-View Live - https://dazzling-murdock-3a1141.netlify.app/ 
+View Live - https://blissful-tesla-f79c9c.netlify.app/ 
 
 
 

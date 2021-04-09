@@ -185,7 +185,7 @@ iframe {
     display: flex;
     justify-content: center;
     padding: 40px 5% 0;
-    overflow-y: auto;
+    overflow-y: hidden;
   }
 
   iframe {
